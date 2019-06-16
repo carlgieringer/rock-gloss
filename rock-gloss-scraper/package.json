@@ -1,0 +1,18 @@
+{
+  "name": "rock-gloss-scraper",
+  "version": "0.1.0",
+  "description": "Scrapes glossary terms for RockGloss",
+  "main": "index.js",
+  "scripts": {
+    "scrape": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "carl gieringer <carl.gieringer@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "argparse": "^1.0.10",
+    "cheerio": "^1.0.0-rc.2",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  }
+}

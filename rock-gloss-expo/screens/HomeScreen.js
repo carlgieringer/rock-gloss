@@ -11,6 +11,8 @@ import {
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
+import TermList from '../views/TermList'
+import terms from '../assets/files/terms.json';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -60,6 +62,9 @@ export default class HomeScreen extends React.Component {
             <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
           </View>
         </View>
+
+        <TermList terms={terms} />
+        
       </View>
     );
   }
