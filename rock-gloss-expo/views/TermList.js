@@ -20,7 +20,7 @@ class TermItem extends React.PureComponent {
     const textColor = this.props.selected ? 'red' : 'black';
     return (
       <TouchableOpacity onPress={this._onPress}>
-        <View>
+        <View style={styles.container}>
           <Text style={styles.term} selectable={true}>
             <Text style={styles.termTitle}>{this.props.term.title}</Text>{'\n'}{'\n'}
             <Text style={styles.termDefinition}>{this.props.term.definition}</Text>
@@ -38,12 +38,6 @@ export default class TermList extends React.Component {
     selected: new Map(),
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.terms !== nextProps.terms) {
-      this.setState({filteredTerms: nextProps.terms});
-    }
-  }
-
   _keyExtractor = (item, index) => item.title;
 
   _onPressItem = (id) => {
@@ -57,16 +51,30 @@ export default class TermList extends React.Component {
   };
 
   _onSearchBarChangeText = text => {
-    const filteredTerms = this.props.terms.filter(term => {
-      const termText = `${term.title.toUpperCase()} ${term.definition.toUpperCase()}`;
-      return termText.indexOf(text.toUpperCase()) > -1;
-    });
-
     this.setState({
       searchText: text,
-      filteredTerms,
     });
   };
+
+  static getDerivedStateFromProps(props, state) {
+    // Re-run the filter whenever the list array or filter text change.
+    // Note we need to store prevPropsList and prevFilterText to detect changes.
+    if (
+      props.terms !== state.prevPropsTerms ||
+      state.prevSearchText !== state.searchText
+    ) {
+      return {
+        prevPropsTerms: props.terms,
+        prevSearchText: state.searchText,
+        filteredTerms: props.terms.filter(term => {
+          if (!state.searchText) return true
+          const termText = `${term.title.toUpperCase()} ${term.definition.toUpperCase()}`;
+          return termText.indexOf(state.searchText.toUpperCase()) > -1;
+        }),
+      };
+    }
+    return null;
+  }
 
   _renderHeader = () => (
     <SearchBar
@@ -76,6 +84,7 @@ export default class TermList extends React.Component {
       round
       onChangeText={text => this._onSearchBarChangeText(text)}
       autoCorrect={false}
+      style={styles.searchBar}
     />
   );
 
@@ -102,6 +111,13 @@ export default class TermList extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  searchBar: {
+    marginBottom: 15,
+  },
   term: {
     marginBottom: 15,
   },
