@@ -9,7 +9,6 @@ import { DrawerActions } from 'react-navigation-drawer';
 
 import TermList from '../views/TermList'
 import terms from '../assets/files/terms.json';
-import MenuIcon from '../components/MenuIcon'
 
 export default class HomeScreen extends React.Component {
   render() {

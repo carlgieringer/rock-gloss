@@ -2,15 +2,15 @@
   "expo": {
     "name": "RockGloss",
     "slug": "rock-gloss",
-    "privacy": "public",
+    "privacy": "unlisted",
     "sdkVersion": "32.0.0",
     "platforms": [
       "ios",
       "android"
     ],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/ios-icon.png",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -23,8 +23,10 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.carlgieringer.rock-gloss"
     },
-    "description": ""
+    "description": "A rock-climbing glossary",
+    "githubUrl": "https://github.com/carlgieringer/rock-gloss"
   }
 }

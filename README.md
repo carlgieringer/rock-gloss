@@ -13,3 +13,11 @@ npm run scrape
 
 ## Mobile app
 
+```
+cd rock-gloss-expo
+yarn start
+```
+
+### Publishing iOS app
+
+[Instructions](https://medium.com/@jeffrey.allen.lewis/react-native-how-to-publish-an-expo-app-to-testflight-debug-common-errors-90e427b4b5ea)
