@@ -8,7 +8,7 @@ import {TouchableOpacity} from 'react-native'
 const defaultNavigationOptions = ({navigation}) => ({
   title: "RockGloss",
   headerStyle: {
-    backgroundColor: '#f4511e',
+    backgroundColor: '#2f6888',
   },
   headerTintColor: '#fff',
   headerTitleStyle: {
