@@ -1,7 +1,6 @@
 import React from 'react';
 import {Platform} from 'react-native'
-import { Icon } from 'expo';
-import { FontAwesome } from '@expo/vector-icons';
+import * as Icon from '@expo/vector-icons'
 
 import Colors from '../constants/Colors';
 
