@@ -24,6 +24,13 @@ npm run start
 
 ## TODO
 
+* Terms of Use, Privacy Policy
+  - https://www.adventureprojects.net/terms
+  - https://www.adventureprojects.net/privacy-policy
+* Pay to remove ads
+* Highlight search in text
+* Convert search from list header to separate component that shows when user scrolls up anywhere in the list
 * Add an alphabetical guide to scrolling the list
   - Use/integrate [SectionList](https://facebook.github.io/react-native/docs/0.35/sectionlist)
   - [alpha-scroll-flat-list](https://github.com/bardog/Alpha-scroll-flat-list/blob/master/src/index.js)
+* Support internal links between definitions

@@ -78,6 +78,7 @@ export default class TermList extends React.Component {
 
   _renderHeader = () => (
     <SearchBar
+      containerStyle={styles.searchBar}
       placeholder="Type Here..."
       value={this.state.searchText}
       lightTheme

@@ -37,6 +37,6 @@ const AboutStack = createStackNavigator({
 })
 
 export default createDrawerNavigator({
-  Home: HomeStack,
+  Terms: HomeStack,
   About: AboutStack,
 })
