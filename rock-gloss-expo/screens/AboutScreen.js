@@ -3,6 +3,7 @@ import {ScrollView, StyleSheet, Text} from 'react-native';
 import {WebBrowser} from 'expo'
 
 import Link from '../components/Link'
+import appInfo from '../app.json'
 
 
 export default class AboutScreen extends React.Component {
@@ -13,46 +14,70 @@ export default class AboutScreen extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Text style={styles.paragraph}>
+        <Paragraph>
           <Text>A rock climbing glossary offered by </Text>
           <Link href="https://twitter.com/carlgieringer">
             Carl Gieringer
           </Link>
           <Text>.</Text>
-        </Text>
-        <Text style={styles.paragraph}>
+        </Paragraph>
+        <Paragraph>
           Dedicated to all who wander and find themselves just remembering to breathe while hanging from a rock face.
-        </Text>
-        <Text style={styles.paragraph}>
+        </Paragraph>
+        <Paragraph>
+          <Text>Terms initially sourced from Wikipedia&rsquo;s </Text>
+          <Link href="https://en.wikipedia.org/wiki/Glossary_of_climbing_terms">
+            glossary of climbing terms
+          </Link>
+          <Text>.</Text>
+        </Paragraph>
+        <Paragraph>
           <Text>Source code for this app is </Text> 
           <Link href="https://github.com/carlgieringer/rock-gloss">
             available on Github
           </Link>
           <Text>.</Text>
-        </Text>
-        <Text style={styles.paragraph}>
+        </Paragraph>
+        <Paragraph>
           <Link href="https://thenounproject.com/term/carabiner/191349">
             Carabiner
           </Link>
           <Text> by JEREMIE SOMMET from the Noun Project</Text>
-        </Text>
-        <Text style={styles.paragraph}>
+        </Paragraph>
+        <Paragraph>
           <Text>All revenue from this app is donated to </Text>
           <Link href="https://www.accessfund.org/">
             AccessFund
           </Link>
           <Text>.</Text>
-        </Text>
-        
-        <Text>
+        </Paragraph>
+        <Paragraph>
           <Text>Is this glossary missing your favorite rock climbing term? </Text>
           <Link href="https://forms.gle/a6GuRoxt7Ls7NSpC8">
             Suggest a term for RockGloss
           </Link>
           <Text>!</Text>
-        </Text>
+        </Paragraph>
+        <Paragraph>
+          Version: {appInfo.expo.version}
+        </Paragraph>
+        <Paragraph>
+          <Text>Alphabetical scroll bar adapted from </Text>
+          <Link href="https://github.com/bardog/Alpha-scroll-flat-list">bardog/Alpha-scroll-flat-list</Link>
+          <Text>.</Text>
+        </Paragraph>
       </ScrollView>
     );
+  }
+}
+
+class Paragraph extends React.Component {
+  render() {
+    return (
+      <Text style={styles.paragraph}>
+        {this.props.children}
+      </Text>
+    )
   }
 }
 

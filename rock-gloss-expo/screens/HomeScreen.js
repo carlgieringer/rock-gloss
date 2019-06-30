@@ -10,29 +10,48 @@ import { AdMobBanner } from 'expo-ads-admob';
 import TermList from '../views/TermList'
 import terms from '../assets/files/terms.json';
 
+const adMobTestAdUnitId = "ca-app-pub-3940256099942544/6300978111"
+const rockGlossBannerAdUnitId = "ca-app-pub-6354515522629884/7406192128"
+
 export default class HomeScreen extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      showAd: true,
+    }
+  }
   render() {
-    const adUnitId = __DEV__ ?
-      "ca-app-pub-3940256099942544/6300978111" :
-      "ca-app-pub-6354515522629884/7406192128"
+    const {
+      showAd
+    } = this.state
+    const adUnitId = __DEV__ ? adMobTestAdUnitId : rockGlossBannerAdUnitId
     return (
       <View style={styles.container}>
         <TermList terms={terms} />
-        <AdMobBanner
-          bannerSize="fullBanner"
-          adUnitID={adUnitId}
-          testDeviceID="EMULATOR"
-          onDidFailToReceiveAdWithError={this.bannerError} />
+        {showAd && (
+          <AdMobBanner
+            bannerSize="fullBanner"
+            adUnitID={adUnitId}
+            testDeviceID={AdMobBanner.simulatorId}
+            onAdViewDidReceiveAd={this.onAdViewDidReceiveAd}
+            onDidFailToReceiveAdWithError={this.onDidFailToReceiveAdWithError}
+          />
+        )}
       </View>
     );
   }
-  
-  bannerError = () => {
-    console.log("bannerError")
+
+  onAdViewDidReceiveAd = () => {
+    this.setState({
+      showAd: true
+    })
   }
-  
-  adMobEvent = () => {
-    console.log("adMobEvent")
+
+  onDidFailToReceiveAdWithError = (error) => {
+    console.error("bannerError", error)
+    this.setState({
+      showAd: false
+    })
   }
 }
 
