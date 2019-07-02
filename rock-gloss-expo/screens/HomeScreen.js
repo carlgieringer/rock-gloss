@@ -6,6 +6,7 @@ import {
 import { WebBrowser } from 'expo';
 import { DrawerActions } from 'react-navigation-drawer';
 import { AdMobBanner } from 'expo-ads-admob';
+import _orderBy from 'lodash/fp/orderBy';
 
 import TermList from '../views/TermList'
 import terms from '../assets/files/terms.json';
@@ -25,9 +26,10 @@ export default class HomeScreen extends React.Component {
       showAd
     } = this.state
     const adUnitId = __DEV__ ? adMobTestAdUnitId : rockGlossBannerAdUnitId
+    const orderedTerms = _orderBy(sortTermsIteratee)(['asc'])(terms)
     return (
       <View style={styles.container}>
-        <TermList terms={terms} />
+        <TermList terms={orderedTerms} />
         {showAd && (
           <AdMobBanner
             bannerSize="fullBanner"
@@ -48,11 +50,20 @@ export default class HomeScreen extends React.Component {
   }
 
   onDidFailToReceiveAdWithError = (error) => {
-    console.error("bannerError", error)
+    // console.error("bannerError", error)
     this.setState({
       showAd: false
     })
   }
+}
+
+function sortTermsIteratee(term) {
+  const title = term.title;
+  // We want to sort words like "b"-grade and 'scend starting with their second letter
+  if (title.startsWith('"') || title.startsWith("'")) {
+    return title.substr(1);
+  }
+  return title;
 }
 
 const styles = StyleSheet.create({

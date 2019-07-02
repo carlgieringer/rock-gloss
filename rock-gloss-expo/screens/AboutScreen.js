@@ -66,6 +66,11 @@ export default class AboutScreen extends React.Component {
           <Link href="https://github.com/bardog/Alpha-scroll-flat-list">bardog/Alpha-scroll-flat-list</Link>
           <Text>.</Text>
         </Paragraph>
+        <Paragraph>
+          <Text>List height measurer derived from </Text>
+          <Link href="https://github.com/Ashoat/squadcal/blob/master/native/text-height-measurer.react.js">Ashoat/squadcal</Link>
+          <Text>.</Text>
+        </Paragraph>
       </ScrollView>
     );
   }
