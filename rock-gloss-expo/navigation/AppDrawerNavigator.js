@@ -4,6 +4,7 @@ import React from 'react'
 import AboutScreen from '../screens/AboutScreen'
 import MenuIcon from '../components/MenuIcon'
 import {TouchableOpacity} from 'react-native'
+import SettingsScreen from '../screens/SettingsScreen'
 
 const defaultNavigationOptions = ({navigation}) => ({
   title: "RockGloss",
@@ -36,7 +37,14 @@ const AboutStack = createStackNavigator({
   defaultNavigationOptions
 })
 
+const SettingsStack = createStackNavigator({
+  SettingsScreen,
+}, {
+  defaultNavigationOptions
+})
+
 export default createDrawerNavigator({
   Terms: HomeStack,
   About: AboutStack,
+  Settings: SettingsStack,
 })

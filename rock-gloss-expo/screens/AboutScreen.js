@@ -4,6 +4,7 @@ import {WebBrowser} from 'expo'
 
 import Link from '../components/Link'
 import appInfo from '../app.json'
+import Paragraph from '../components/Paragraph'
 
 
 export default class AboutScreen extends React.Component {
@@ -76,26 +77,10 @@ export default class AboutScreen extends React.Component {
   }
 }
 
-class Paragraph extends React.Component {
-  render() {
-    return (
-      <Text style={styles.paragraph}>
-        {this.props.children}
-      </Text>
-    )
-  }
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
     backgroundColor: '#fff',
-  },
-  link: {
-    textDecorationLine: 'underline',
-  },
-  paragraph: {
-    marginBottom: 10,
   },
 });
