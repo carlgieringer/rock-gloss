@@ -5,9 +5,12 @@ import { Asset } from 'expo-asset'
 import * as Font from 'expo-font'
 import * as Icon from '@expo/vector-icons'
 import AppContainer from './navigation/AppContainer';
+import AppSettings from './AppSettings'
 
 import { useScreens } from 'react-native-screens';
 useScreens();
+
+AppSettings.loadSettingsAsync()
 
 export default class App extends React.Component {
   state = {

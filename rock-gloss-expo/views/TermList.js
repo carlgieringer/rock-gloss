@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
-  AsyncStorage,
   Dimensions,
   FlatList, 
   StyleSheet,
@@ -13,9 +12,11 @@ import {
 import {
   SearchBar
 } from 'react-native-elements';
+import objectHash from 'object-hash'
+
+import AppStorage from '../AppStorage'
 import AlphaScrollList from '../components/alpha-scroll-list/AlphaScrollList'
 import ViewMeasurer from '../components/ViewMeasurer'
-import objectHash from 'object-hash'
 
 class TermItem extends React.PureComponent {
   
@@ -51,8 +52,6 @@ export default class TermList extends React.Component {
   static defaultProps = {
     terms: [],
   }
-  
-  static TermMeasurementsStorageKey = '@termMeasurements'
   
   constructor(props) {
     super(props)
@@ -111,9 +110,8 @@ export default class TermList extends React.Component {
   static _getStoredTermMeasurementsAsync = async (terms) => {
     const termsHash = TermList._hashTerms(terms)
     try {
-      const storedTermMeasurementsJson = await AsyncStorage.getItem(TermList.TermMeasurementsStorageKey)
-      if (storedTermMeasurementsJson !== null) {
-        const storedTermMeasurements = JSON.parse(storedTermMeasurementsJson);
+      const storedTermMeasurements = await AppStorage.getItemAsync(AppStorage.termMeasurementsStorageKey)
+      if (storedTermMeasurements !== AppStorage.missing) {
         if (storedTermMeasurements.hash === termsHash) {
           return storedTermMeasurements.termMeasurements;  
         }
@@ -130,9 +128,8 @@ export default class TermList extends React.Component {
       hash: termsHash,
       termMeasurements,
     }
-    const storedTermMeasurementsJson = JSON.stringify(storedTermMeasurements)
     try {
-      await AsyncStorage.setItem(TermList.TermMeasurementsStorageKey, storedTermMeasurementsJson);
+      await AppStorage.setItemAsync(AppStorage.termMeasurementsStorageKey, storedTermMeasurements);
     } catch(e) {
       console.log("Error storing term measurements", e);
     }

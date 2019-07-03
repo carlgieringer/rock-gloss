@@ -10,28 +10,36 @@ import _orderBy from 'lodash/fp/orderBy';
 import _deburr from 'lodash/deburr';
 
 import TermList from '../views/TermList'
+import AppSettings from '../AppSettings'
 import terms from '../assets/files/terms.json';
 
 const adMobTestAdUnitId = "ca-app-pub-3940256099942544/6300978111"
 const rockGlossBannerAdUnitId = "ca-app-pub-6354515522629884/7406192128"
 
 export default class HomeScreen extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       showAd: true,
+      settings: {
+        adsEnabled: true,
+      },
     }
   }
+  
   render() {
     const {
-      showAd
+      showAd,
+      settings: {
+        adsEnabled
+      },
     } = this.state
     const adUnitId = __DEV__ ? adMobTestAdUnitId : rockGlossBannerAdUnitId
     const orderedTerms = _orderBy(sortTermsIteratee)(['asc'])(terms)
     return (
       <View style={styles.container}>
         <TermList terms={orderedTerms} />
-        {showAd && (
+        {adsEnabled && showAd && (
           <AdMobBanner
             bannerSize="fullBanner"
             adUnitID={adUnitId}
@@ -42,6 +50,12 @@ export default class HomeScreen extends React.Component {
         )}
       </View>
     );
+  }
+  
+  componentDidMount = () => {
+    AppSettings.getSettingsAsync().then((settings) => this.setState({
+      settings: {...this.state.settings, ...settings},
+    }))
   }
 
   onAdViewDidReceiveAd = () => {

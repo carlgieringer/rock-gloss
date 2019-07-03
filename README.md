@@ -34,7 +34,6 @@ npm run start
   - https://www.rei.com/learn/expert-advice/rock-climbing-glossary.html
   - https://rockandice.com/how-to-climb/climbing-terminology/
 * Single out exact match (best match?) at top of terms, with remaining terms below.
-* Pay to remove ads
 * Highlight search in text
 * Convert search from list header to separate component that shows when user scrolls up anywhere in the list
 * Support internal links between definitions
