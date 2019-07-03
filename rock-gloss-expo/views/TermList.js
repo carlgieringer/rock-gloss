@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
+  AsyncStorage,
   Dimensions,
   FlatList, 
   StyleSheet,
@@ -14,6 +15,7 @@ import {
 } from 'react-native-elements';
 import AlphaScrollList from '../components/alpha-scroll-list/AlphaScrollList'
 import ViewMeasurer from '../components/ViewMeasurer'
+import objectHash from 'object-hash'
 
 class TermItem extends React.PureComponent {
   
@@ -45,26 +47,25 @@ export default class TermList extends React.Component {
       definition: PropTypes.string.isRequired,
     })),
   }
+  
   static defaultProps = {
     terms: [],
   }
   
+  static TermMeasurementsStorageKey = '@termMeasurements'
+  
   constructor(props) {
     super(props)
-    const viewsToMeasure = props.terms
-      ? TermList.viewsToMeasureFromTerms(props.terms)
-      : [];
     this.state = {
       filteredTerms: [],
       termMeasurements: null,
       searchText: '',
       selected: new Map(),
-      viewsToMeasure,
+      viewsToMeasure: null,
     };
   }
   
   render() {
-
     const termList = this.state.termMeasurements ? (
       <AlphaScrollList
         Component={FlatList}
@@ -87,7 +88,7 @@ export default class TermList extends React.Component {
         />
       </View>
     )
-    const viewMeasurer = this.state.termMeasurements ? null : (
+    const viewMeasurer = this.state.termMeasurements || !this.state.viewsToMeasure ? null : (
       <ViewMeasurer
         viewsToMeasure={this.state.viewsToMeasure}
         onMeasured={this.onMeasured}
@@ -102,6 +103,40 @@ export default class TermList extends React.Component {
   }
 
   static _keyExtractor = (item, index) => item.title;
+
+  static _hashTerms = (terms) => {
+    return objectHash(terms)
+  }
+  
+  static _getStoredTermMeasurementsAsync = async (terms) => {
+    const termsHash = TermList._hashTerms(terms)
+    try {
+      const storedTermMeasurementsJson = await AsyncStorage.getItem(TermList.TermMeasurementsStorageKey)
+      if (storedTermMeasurementsJson !== null) {
+        const storedTermMeasurements = JSON.parse(storedTermMeasurementsJson);
+        if (storedTermMeasurements.hash === termsHash) {
+          return storedTermMeasurements.termMeasurements;  
+        }
+      }
+    } catch(e) {
+      console.log("Error reading stored term measurements", e);
+    }
+    return null;
+  }
+  
+  static _setStoredTermMeasurementsAsync = async (terms, termMeasurements) => {
+    const termsHash = TermList._hashTerms(terms)
+    const storedTermMeasurements = {
+      hash: termsHash,
+      termMeasurements,
+    }
+    const storedTermMeasurementsJson = JSON.stringify(storedTermMeasurements)
+    try {
+      await AsyncStorage.setItem(TermList.TermMeasurementsStorageKey, storedTermMeasurementsJson);
+    } catch(e) {
+      console.log("Error storing term measurements", e);
+    }
+  }
 
   _onPressItem = (id) => {
     // updater functions are preferred for transactional updates
@@ -134,12 +169,31 @@ export default class TermList extends React.Component {
           const termText = `${term.title.toUpperCase()} ${term.definition.toUpperCase()}`;
           return termText.indexOf(state.searchText.toUpperCase()) > -1;
         }),
-        viewsToMeasure: props.terms
-          ? TermList.viewsToMeasureFromTerms(props.terms)
-          : []
       };
     }
     return null;
+  }
+
+  componentDidUpdate(prevProps) {
+    const terms = this.props.terms
+    if (terms !== prevProps.terms) {
+      if (terms) {
+        TermList._getStoredTermMeasurementsAsync(terms).then(
+          (termMeasurements) => {
+            if (termMeasurements) {
+              this.setState({termMeasurements});
+            } else {
+              this.setState({viewsToMeasure: TermList.viewsToMeasureFromTerms(this.props.terms)})
+            }
+          }
+        )
+      } else {
+        this.setState({
+          termMeasurements: null,
+          viewsToMeasure: [],
+        })
+      }
+    }
   }
 
   _renderHeader = () => (
@@ -180,6 +234,7 @@ export default class TermList extends React.Component {
       offset += height
       return termHeight
     });
+    TermList._setStoredTermMeasurementsAsync(this.props.terms, termMeasurements)
     this.setState({ termMeasurements });
   }
   
