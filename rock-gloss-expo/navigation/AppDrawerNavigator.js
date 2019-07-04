@@ -15,13 +15,13 @@ const defaultNavigationOptions = ({navigation}) => ({
   headerTitleStyle: {
     fontWeight: 'bold',
   },
-  headerRight: (
+  headerLeft: (
     <TouchableOpacity transparent onPress={() => navigation.toggleDrawer()}>
       <MenuIcon />
     </TouchableOpacity>
   ),
-  headerRightContainerStyle: {
-    marginRight: 15,
+  headerLeftContainerStyle: {
+    marginLeft: 15,
   },
 })
 
