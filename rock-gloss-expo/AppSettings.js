@@ -1,61 +1,46 @@
- import {AsyncStorage} from 'react-native'
+ import _map from 'lodash/map'
+ import _mapKeys from 'lodash/mapKeys'
  
  import AppStorage from './AppStorage'
 
 export default class AppSettings {
   
-  static settingsLoadedPromise = null;
-  static settings = null;
+  static _settings = null;
 
-  static storageKeyPrefix = "RockGloss.Settings."
-  static adsEnabledStorageKey = AppSettings.storageKeyPrefix + "adsEnabled";
+  static _storageKeyPrefix = "RockGloss.Settings."
+  static _toStorageKey = (settingKey) => AppSettings._storageKeyPrefix + settingKey
+  static _toSettingKey = (storageKey) => storageKey.substr(AppSettings._storageKeyPrefix.length)
+  static adsEnabledSettingKey = "adsEnabled";
+  static _allSettingsStorageKeys = _map([
+    AppSettings.adsEnabledSettingKey,
+  ], AppSettings._toStorageKey)
   
   static loadSettingsAsync = async () => {
-      AppSettings.settingsLoadedPromise = new Promise(async (resolve, reject) => {
-        let settingPairs = null;
-        try {
-          settingPairs = await AsyncStorage.multiGet([AppSettings.adsEnabledStorageKey])
-        } catch(e) {
-          console.log("Error reading settings", e);
-          reject(e)
-        }
-        const settings = {}
-        for (let settingPair of settingPairs) {
-          const value = settingPair[1];
-          if (value !== null) {
-            const storageKey = settingPair[0];
-            const settingKey = AppSettings._toSettingKey(storageKey);
-            settings[settingKey] = JSON.parse(value);
-          }
-          
-        }
-        AppSettings.settings = settings;
-        resolve(settings);
-      });
+    let settings = null;
+    try {
+      settings = await AppStorage.getItemsAsync(AppSettings._allSettingsStorageKeys)
+    } catch(e) {
+      console.log("Error getting settings", e);
+      reject(e)
+    }
+    return _mapKeys(settings, (value, key) => AppSettings._toSettingKey(key))
   }
   
   static getSettingsAsync = async () => {
-    if (!AppSettings.settings) {
-      if (!AppSettings.settingsLoadedPromise) {
-        throw new Error("Cannot get settings if loadSettingsAsync hasn't been called.")
-      }
-      await AppSettings.settingsLoadedPromise;
+    if (!AppSettings._settings) {
+      AppSettings._settings = await AppSettings.loadSettingsAsync();
     }
-    return AppSettings.settings;
+    return AppSettings._settings;
   }
 
-  static storeSettingAsync = async (key, value) => {
+  static setSettingAsync = async (settingKey, value) => {
     try {
-      await AppStorage.setItemAsync(key, value);
-      const settingKey = AppSettings._toSettingKey(key)
-      AppSettings.settings[settingKey] = value;
+      const storageKey = AppSettings._toStorageKey(settingKey)
+      await AppStorage.setItemAsync(storageKey, value);
+      AppSettings._settings[settingKey] = value;
     } catch(e) {
-      console.log("Error storing term measurements", e);
+      console.log("Error storing setting", e);
       throw(e);
     }
-  }
-  
-  static _toSettingKey = (storageKey) => {
-    return storageKey.substr(AppSettings.storageKeyPrefix.length)
   }
 }

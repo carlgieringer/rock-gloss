@@ -10,6 +10,25 @@ export default class AppStorage {
     await AsyncStorage.multiRemove(allKeys)
   }
   
+  static getItemsAsync = async (keys) => {
+    let itemPairs = null;
+    try {
+      itemPairs = await AsyncStorage.multiGet(keys)
+    } catch(e) {
+      console.log("Error reading storage", e);
+      throw(e)
+    }
+    const items = {}
+    for (let itemPair of itemPairs) {
+      const value = itemPair[1];
+      if (value !== null) {
+        const itemKey = itemPair[0];
+        items[itemKey] = JSON.parse(value);
+      }
+    }
+    return items;
+  }
+  
   static getItemAsync = async (key) => {
     let valueJson = null;
     try {

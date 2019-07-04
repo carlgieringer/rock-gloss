@@ -81,7 +81,7 @@ export default class SettingsScreen extends React.Component {
   }
 
   onPressDisableAds = (newValue) => {
-    AppSettings.storeSettingAsync(AppSettings.adsEnabledStorageKey, newValue)
+    AppSettings.setSettingAsync(AppSettings.adsEnabledSettingKey, newValue)
       .then(() => this.setState({settings: {
         ...this.state, 
         adsEnabled: newValue
