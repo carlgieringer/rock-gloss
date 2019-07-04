@@ -12,9 +12,10 @@ import _deburr from 'lodash/deburr';
 import TermList from '../views/TermList'
 import AppSettings from '../AppSettings'
 import terms from '../assets/files/terms.json';
+import conf from '../conf/conf.json'
+import ScreenNavigationAnalytics from '../components/ScreenNaviationAnalytics'
 
 const adMobTestAdUnitId = "ca-app-pub-3940256099942544/6300978111"
-const rockGlossBannerAdUnitId = "ca-app-pub-6354515522629884/7406192128"
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -34,7 +35,7 @@ export default class HomeScreen extends React.Component {
         adsEnabled
       },
     } = this.state
-    const adUnitId = __DEV__ ? adMobTestAdUnitId : rockGlossBannerAdUnitId
+    const adUnitId = __DEV__ ? adMobTestAdUnitId : conf.adMob.bannerAdUnitId
     const orderedTerms = _orderBy(sortTermsIteratee)(['asc'])(terms)
     return (
       <View style={styles.container}>
@@ -48,6 +49,7 @@ export default class HomeScreen extends React.Component {
             onDidFailToReceiveAdWithError={this.onDidFailToReceiveAdWithError}
           />
         )}
+        <ScreenNavigationAnalytics screenName="terms" />
       </View>
     );
   }

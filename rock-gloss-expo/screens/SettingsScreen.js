@@ -5,6 +5,9 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import Link from '../components/Link'
 import AppSettings from '../AppSettings'
 import AppStorage from '../AppStorage'
+import AppAnalytics from '../AppAnalytics'
+import Paragraph from './AboutScreen'
+import ScreenNavigationAnalytics from '../components/ScreenNaviationAnalytics'
 
 
 export default class SettingsScreen extends React.Component {
@@ -16,7 +19,8 @@ export default class SettingsScreen extends React.Component {
     super(props);
     this.state = {
       settings: {
-        adsEnabled: true
+        adsEnabled: true,
+        analyticsEnabled: true,
       },
       settingsLoaded: false,
     }
@@ -25,23 +29,34 @@ export default class SettingsScreen extends React.Component {
   render() {
     const {
       settings: {
-        adsEnabled
+        adsEnabled,
+        analyticsEnabled,
       },
       settingsLoaded,
     } = this.state
+    
+    const bullet = '\u2022'
     const settingsControls = settingsLoaded ? [
       <Section key="disclaimer:">
         <Text>Must restart app for settings to take affect.</Text>
       </Section>,
       <Section key="ads-enabled">
-        <Text>Ads Enabled: </Text>
-        <Switch value={adsEnabled} onValueChange={this.onPressDisableAds} />
+        <Text style={styles.settingLabel}>Ads Enabled: </Text>
+        <Switch value={adsEnabled} onValueChange={this.onAdsEnabledChange} />
         <Text style={styles.smallText}>
-          <Text>All revenue for RockGloss donated to </Text>
+          <Text>All revenue from RockGloss donated to </Text>
           <Link href="https://www.accessfund.org/">AccessFund</Link>
           <Text>; please consider donating.</Text>
         </Text>
-      </Section>
+      </Section>,
+      <Section key="analytics">
+        <Text style={styles.settingLabel}>Analytics Enabled: </Text>
+        <Switch value={analyticsEnabled} onValueChange={this.onAnalyticsEnabledChange} />
+        <Text>
+          The analytics measured in this app are: first app open, app open, 
+          view screen (Terms, About, Settings), disable ads, disable analytics
+        </Text>
+      </Section>,
     ] : (
       <View>
         <Text>Loading settings...</Text>
@@ -54,11 +69,11 @@ export default class SettingsScreen extends React.Component {
     )
     return (
       <ScrollView style={styles.container}>
+        {settingsControls}
         <Section>
-          <Text>Reset app: </Text>
           <Button title="Reset App" onPress={this.onPressResetApp} />
         </Section>
-        {settingsControls}
+        <ScreenNavigationAnalytics screenName="settings" />
       </ScrollView>
     );
   }
@@ -80,12 +95,33 @@ export default class SettingsScreen extends React.Component {
       })
   }
 
-  onPressDisableAds = (newValue) => {
-    AppSettings.setSettingAsync(AppSettings.adsEnabledSettingKey, newValue)
-      .then(() => this.setState({settings: {
-        ...this.state, 
-        adsEnabled: newValue
-      }}))
+  onAdsEnabledChange = async (newValue) => {
+    const eventName = newValue ? AppAnalytics.eventNames.enableAds : AppAnalytics.eventNames.disableAds
+    await Promise.all([
+      AppSettings.setSettingAsync(AppSettings.settingKeys.adsEnabled, newValue),
+      AppAnalytics.track(eventName),
+    ])
+    this.setState({
+      ...this.state,
+      settings: {
+      ...this.state.settings,
+      adsEnabled: newValue,
+    }})
+  }
+
+  onAnalyticsEnabledChange = async (newValue) => {
+    const eventName = newValue ? AppAnalytics.eventNames.enableAnalytics : AppAnalytics.eventNames.disableAnalytics
+    await Promise.all([
+      AppSettings.setSettingAsync(AppSettings.settingKeys.analyticsEnabled, newValue),
+      AppAnalytics.track(eventName),
+    ])
+    this.setState({
+      ...this.state,
+      settings: {
+        ...this.state.settings,
+        analyticsEnabled: newValue,
+      }
+    })
   }
 }
 
@@ -114,5 +150,8 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: 12,
+  },
+  settingLabel: {
+    fontWeight: 'bold',
   },
 });

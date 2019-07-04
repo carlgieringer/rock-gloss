@@ -5,6 +5,7 @@ import {WebBrowser} from 'expo'
 import Link from '../components/Link'
 import appInfo from '../app.json'
 import Paragraph from '../components/Paragraph'
+import ScreenNavigationAnalytics from '../components/ScreenNaviationAnalytics'
 
 
 export default class AboutScreen extends React.Component {
@@ -72,6 +73,7 @@ export default class AboutScreen extends React.Component {
           <Link href="https://github.com/Ashoat/squadcal/blob/master/native/text-height-measurer.react.js">Ashoat/squadcal</Link>
           <Text>.</Text>
         </Paragraph>
+        <ScreenNavigationAnalytics screenName="about" />
       </ScrollView>
     );
   }

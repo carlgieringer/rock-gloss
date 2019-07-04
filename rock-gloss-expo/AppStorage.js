@@ -2,7 +2,9 @@ import {AsyncStorage} from 'react-native'
 
 export default class AppStorage {
   
-  static termMeasurementsStorageKey = 'RockGloss.termMeasurements'
+  static storageKeyPrefix = "RockGloss."
+  static termMeasurementsStorageKey = AppStorage.storageKeyPrefix + 'termMeasurements'
+  static appHasEverLoadedStorageKey = AppStorage.storageKeyPrefix + 'appHasEverLoaded'
   static missing = {}
   
   static clear = async () => {

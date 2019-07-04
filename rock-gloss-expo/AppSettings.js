@@ -1,4 +1,6 @@
- import _map from 'lodash/map'
+ import _map from 'lodash/fp/map'
+ import _compose from 'lodash/fp/compose'
+ import _values from 'lodash/fp/values'
  import _mapKeys from 'lodash/mapKeys'
  
  import AppStorage from './AppStorage'
@@ -10,10 +12,14 @@ export default class AppSettings {
   static _storageKeyPrefix = "RockGloss.Settings."
   static _toStorageKey = (settingKey) => AppSettings._storageKeyPrefix + settingKey
   static _toSettingKey = (storageKey) => storageKey.substr(AppSettings._storageKeyPrefix.length)
-  static adsEnabledSettingKey = "adsEnabled";
-  static _allSettingsStorageKeys = _map([
-    AppSettings.adsEnabledSettingKey,
-  ], AppSettings._toStorageKey)
+  static settingKeys = {
+    adsEnabled: "adsEnabled",
+    analyticsEnabled: "analyticsEnabled",
+  }
+  static _allSettingsStorageKeys = _compose(
+    _values,
+    _map(AppSettings._toStorageKey),
+  )(AppSettings.settingKeys)
   
   static loadSettingsAsync = async () => {
     let settings = null;

@@ -1,16 +1,17 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { useScreens } from 'react-native-screens';
 import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset'
 import * as Font from 'expo-font'
 import * as Icon from '@expo/vector-icons'
 import AppContainer from './navigation/AppContainer';
 import AppSettings from './AppSettings'
+import AppAnalytics from './AppAnalytics'
 
-import { useScreens } from 'react-native-screens';
 useScreens();
-
 AppSettings.loadSettingsAsync()
+AppAnalytics.appLoad()
 
 export default class App extends React.Component {
   state = {
