@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text, PanResponder} from 'react-native';
+import {InteractionManager, View, Text, PanResponder} from 'react-native';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -32,6 +32,8 @@ export default class AlphaScrollBar extends Component {
       activeLetterViewTop: 0,
       alphabet: props.doReverse ? [...ALPHABET].reverse() : ALPHABET
     };
+    
+    this.clearPanResponderInteractionHandle = debounce(this.clearPanResponderInteractionHandle, 5)
   }
 
   componentWillMount() {
@@ -81,6 +83,15 @@ export default class AlphaScrollBar extends Component {
     });
 
     this.props.onScroll(activeLetter, this.state.activeLetterViewTop);
+    // The PanResponder's interaction handle prevents list from rendering items while touch is active
+    // So clear it occasionally, allowing the list to render the items it has scrolled to.
+    this.clearPanResponderInteractionHandle()
+  }
+
+  clearPanResponderInteractionHandle = () => {
+    if (this.panResponder.getInteractionHandle()) {
+      InteractionManager.clearInteractionHandle(this.panResponder.getInteractionHandle());
+    }
   }
 
   handleOnFingerStop () {

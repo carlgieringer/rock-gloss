@@ -8,13 +8,13 @@
       "ios",
       "android"
     ],
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#2f6888"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -24,7 +24,11 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.carlgieringer.rock-gloss"
+      "bundleIdentifier": "com.carlgieringer.rock-gloss",
+      "buildNumber": "1.0.4a1",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "description": "A rock-climbing glossary",
     "githubUrl": "https://github.com/carlgieringer/rock-gloss"

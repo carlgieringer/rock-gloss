@@ -112,8 +112,8 @@ export default class AlphaScrollList extends Component {
       }
 
       if (index !== -1) {
-        const offset = this.props.itemMeasurements[index]["offset"]
-        this.list.scrollToOffset({ animated: false, offset });
+        const offset = this.props.itemMeasurements[index]["offset"];
+        this.list.scrollToOffset({ animated: true, offset });
       }
     }
   }

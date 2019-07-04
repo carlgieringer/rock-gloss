@@ -21,11 +21,21 @@ npm run start
 
 ### Publishing iOS app
 
-[Instructions](https://medium.com/@jeffrey.allen.lewis/react-native-how-to-publish-an-expo-app-to-testflight-debug-common-errors-90e427b4b5ea)
+[Full Instructions](https://medium.com/@jeffrey.allen.lewis/react-native-how-to-publish-an-expo-app-to-testflight-debug-common-errors-90e427b4b5ea)
+
+#### Instruction after first time
+* Ensure that `app.json` `expo.version` key has been incremented.
+* Build app
+    ```
+    $ expo build:ios
+    ...
+    Successfully built standalone app: https://expo.io/artifacts/abc-123-456-def
+    ```
+* Download link at end of build.
+* Upload using Application Loader.app
+* In [App Store Connect](https://appstoreconnect.apple.com/), in Test Flight, add external testers.
 
 ## TODO
-
-* Store list measurements
 
 * Terms of Use, Privacy Policy
   - https://www.adventureprojects.net/terms
@@ -37,4 +47,6 @@ npm run start
 * Highlight search in text
 * Convert search from list header to separate component that shows when user scrolls up anywhere in the list
 * Support internal links between definitions
+* Add sections to make it clearer that user has navigated to letter section.
 * https://github.com/infinitered/reactotron
+* package ViewMeasurer for distribution ("react native getItemLayout dynamic")
