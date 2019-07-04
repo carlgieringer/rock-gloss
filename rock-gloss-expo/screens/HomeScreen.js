@@ -73,7 +73,7 @@ export default class HomeScreen extends React.Component {
 }
 
 function sortTermsIteratee(term) {
-  const title = _deburr(term.title);
+  const title = _deburr(term.title).toLowerCase();
   // We want to sort words like "b"-grade and 'scend starting with their second letter
   if (title.startsWith('"') || title.startsWith("'")) {
     return title.substr(1);
