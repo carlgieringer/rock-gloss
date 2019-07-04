@@ -25,7 +25,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.carlgieringer.rock-gloss",
-      "buildNumber": "1.0.4a1",
+      "buildNumber": "3",
       "config": {
         "usesNonExemptEncryption": false
       }
