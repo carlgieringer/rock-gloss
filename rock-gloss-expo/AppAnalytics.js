@@ -3,6 +3,7 @@ import * as Amplitude from 'expo-analytics-amplitude';
 
 import conf from './conf/conf.json'
 import AppSettings from './AppSettings'
+import AppStorage from './AppStorage'
 
 export default class AppAnalytics {
   
@@ -21,7 +22,12 @@ export default class AppAnalytics {
     osVersion: Platform.Version,
   }
   
-  static initialize = async () => {
+  static _enabled = true
+  static _initialized = false
+  
+  static _initialize = async () => {
+    if (AppSettings._initialized) return
+    
     AppSettings.getSettingsAsync().then((settings) => {
       AppAnalytics._enabled = settings.analyticsEnabled
     })
@@ -30,9 +36,12 @@ export default class AppAnalytics {
     
     const apiKey = conf.amplitude.apiKey
     await Amplitude.initialize(apiKey)
+    
+    AppSettings._initialized = true
   }
   
   static appLoad = async () => {
+    await AppAnalytics._initialize()
     if (!AppAnalytics._enabled) return
     await Promise.all([
       AppAnalytics._maybeFirstAppLoad(),
@@ -55,6 +64,7 @@ export default class AppAnalytics {
   }
   
   static track = async (eventName, properties=null) => {
+    await AppAnalytics._initialize()
     if (!AppAnalytics._enabled) return
     if (properties) {
       properties = {...AppAnalytics._defaultProperties, properties}

@@ -24,7 +24,7 @@ npm run start
 [Full Instructions](https://medium.com/@jeffrey.allen.lewis/react-native-how-to-publish-an-expo-app-to-testflight-debug-common-errors-90e427b4b5ea)
 
 #### Instruction after first time
-* Ensure that `app.json` `expo.version` key has been incremented.
+* Ensure that `app.json` `expo.version` key or `expo.ios.buildNumber` key has been incremented.
 * Build app
     ```
     $ expo build:ios
