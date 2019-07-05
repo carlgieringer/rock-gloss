@@ -5,6 +5,7 @@ import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset'
 import * as Font from 'expo-font'
 import * as Icon from '@expo/vector-icons'
+import Sentry from 'sentry-expo';
 import AppContainer from './navigation/AppContainer';
 import AppSettings from './AppSettings'
 import AppAnalytics from './AppAnalytics'
@@ -12,6 +13,7 @@ import AppAnalytics from './AppAnalytics'
 useScreens();
 AppSettings.loadSettingsAsync()
 AppAnalytics.appLoad()
+Sentry.config('https://9665d8240e644e1aae000f542a5715e4@sentry.io/1498179').install();
 
 export default class App extends React.Component {
   state = {

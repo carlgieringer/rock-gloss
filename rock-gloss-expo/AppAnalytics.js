@@ -4,6 +4,7 @@ import * as Amplitude from 'expo-analytics-amplitude';
 import conf from './conf/conf.json'
 import AppSettings from './AppSettings'
 import AppStorage from './AppStorage'
+import Errors from './Errors'
 
 export default class AppAnalytics {
   
@@ -56,8 +57,8 @@ export default class AppAnalytics {
       try {
         await AppAnalytics.track(AppAnalytics.eventNames.firstAppLoad)
         await AppStorage.setItemAsync(AppStorage.appHasEverLoadedStorageKey, true)
-      } catch (e) {
-        console.error("error tracking firstAppLoad or storing appHasEverLoaded")
+      } catch (err) {
+        Errors.onException(err, "error tracking firstAppLoad or storing appHasEverLoaded")
         await AppStorage.setItemAsync(AppStorage.appHasEverLoadedStorageKey, false)
       }
     }

@@ -2,8 +2,9 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start:android": "expo start --android",
+    "start:ios": "expo start --ios",
+    "build:ios": ". conf/env.sh && expo build:ios",
     "eject": "expo eject",
     "test": "node ./node_modules/jest/bin/jest.js --watchAll"
   },
@@ -24,7 +25,8 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-elements": "^1.1.0",
     "react-native-responsive-fontsize": "^0.2.0",
-    "react-navigation": "^3.0.9"
+    "react-navigation": "^3.0.9",
+    "sentry-expo": "^1.13.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",

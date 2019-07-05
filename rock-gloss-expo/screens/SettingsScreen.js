@@ -8,6 +8,7 @@ import AppStorage from '../AppStorage'
 import AppAnalytics from '../AppAnalytics'
 import Paragraph from './AboutScreen'
 import ScreenNavigationAnalytics from '../components/ScreenNaviationAnalytics'
+import Errors from '../Errors'
 
 
 export default class SettingsScreen extends React.Component {
@@ -90,7 +91,7 @@ export default class SettingsScreen extends React.Component {
       .then(() => {
         Alert.alert("Success", "App settings reset")
       })
-      .catch((errors) => {
+      .catch((errs) => {
         Alert.alert("Error", "Unable to reset settings")
       })
   }

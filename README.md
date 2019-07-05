@@ -48,5 +48,5 @@ npm run start
 * Convert search from list header to separate component that shows when user scrolls up anywhere in the list
 * Support internal links between definitions
 * Add sections to make it clearer that user has navigated to letter section.
-* https://github.com/infinitered/reactotron
+* (inpsecting after ejecting: https://github.com/infinitered/reactotron)
 * package ViewMeasurer for distribution ("react native getItemLayout dynamic")

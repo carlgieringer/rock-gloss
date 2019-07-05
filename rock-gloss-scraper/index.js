@@ -10,8 +10,8 @@ const {scrapeTerms} = require('./scraper');
 (async () => {
   try {
     await scrapeTerms();
-  } catch (e) {
-    console.log(e);
+  } catch (err) {
+    console.error(err);
     return;
   }
   console.log('success');

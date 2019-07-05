@@ -4,6 +4,7 @@
  import _mapKeys from 'lodash/mapKeys'
  
  import AppStorage from './AppStorage'
+ import Errors from './Errors'
 
 export default class AppSettings {
   
@@ -25,9 +26,9 @@ export default class AppSettings {
     let settings = null;
     try {
       settings = await AppStorage.getItemsAsync(AppSettings._allSettingsStorageKeys)
-    } catch(e) {
-      console.log("Error getting settings", e);
-      reject(e)
+    } catch (err) {
+      Errors.onException(err, "Error getting settings")
+      reject(err)
     }
     return _mapKeys(settings, (value, key) => AppSettings._toSettingKey(key))
   }
@@ -44,9 +45,9 @@ export default class AppSettings {
       const storageKey = AppSettings._toStorageKey(settingKey)
       await AppStorage.setItemAsync(storageKey, value);
       AppSettings._settings[settingKey] = value;
-    } catch(e) {
-      console.log("Error storing setting", e);
-      throw(e);
+    } catch (err) {
+      Errors.onException(err, "Error storing setting")
+      throw(err);
     }
   }
 }

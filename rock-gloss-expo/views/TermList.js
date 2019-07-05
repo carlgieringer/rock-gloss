@@ -17,6 +17,7 @@ import objectHash from 'object-hash'
 import AppStorage from '../AppStorage'
 import AlphaScrollList from '../components/alpha-scroll-list/AlphaScrollList'
 import ViewMeasurer from '../components/ViewMeasurer'
+import Errors from '../Errors'
 
 class TermItem extends React.PureComponent {
   
@@ -119,8 +120,8 @@ export default class TermList extends React.Component {
           return storedTermMeasurements.termMeasurements;  
         }
       }
-    } catch(e) {
-      console.log("Error reading stored term measurements", e);
+    } catch (err) {
+      Errors.onException(err, "Error reading stored term measurements")
     }
     return null;
   }
@@ -133,8 +134,8 @@ export default class TermList extends React.Component {
     }
     try {
       await AppStorage.setItemAsync(AppStorage.termMeasurementsStorageKey, storedTermMeasurements);
-    } catch(e) {
-      console.log("Error storing term measurements", e);
+    } catch (err) {
+      Errors.onException(err, "Error storing term measurements");
     }
   }
 

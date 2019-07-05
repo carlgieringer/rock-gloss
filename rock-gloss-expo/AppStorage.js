@@ -1,4 +1,5 @@
 import {AsyncStorage} from 'react-native'
+import Errors from './Errors'
 
 export default class AppStorage {
   
@@ -16,9 +17,9 @@ export default class AppStorage {
     let itemPairs = null;
     try {
       itemPairs = await AsyncStorage.multiGet(keys)
-    } catch(e) {
-      console.log("Error reading storage", e);
-      throw(e)
+    } catch (err) {
+      Errors.onException(err, "Error reading storage");
+      throw(err)
     }
     const items = {}
     for (let itemPair of itemPairs) {
@@ -35,9 +36,9 @@ export default class AppStorage {
     let valueJson = null;
     try {
       valueJson = await AsyncStorage.getItem(key)
-    } catch (e) {
-      console.error("Error getting item", e);
-      throw(e);
+    } catch (err) {
+      Errors.onException(err, "Error getting item");
+      throw(err);
     }
     if (valueJson === null) {
       return AppStorage.missing;
@@ -49,9 +50,9 @@ export default class AppStorage {
     const valueJson = JSON.stringify(value)
     try {
       await AsyncStorage.setItem(key, valueJson);
-    } catch (e) {
-      console.log("Error storing term measurements", e);
-      throw(e);
+    } catch (err) {
+      Errors.onException(err, "Error storing term measurements");
+      throw(err);
     }
   }
 }
