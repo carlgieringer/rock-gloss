@@ -80,6 +80,9 @@ export default class TermList extends React.Component {
       />
     ) : (
       <View style={styles.loadingIndicatorContainer}>
+        {this.state.viewsToMeasure && (
+          <Text>Calculating one-time optimizations...</Text>
+        )}
         <ActivityIndicator
           color="black"
           size="large"
