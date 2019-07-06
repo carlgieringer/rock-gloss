@@ -47,6 +47,13 @@ export default class AboutScreen extends React.Component {
           <Text> by JEREMIE SOMMET from the Noun Project</Text>
         </Paragraph>
         <Paragraph>
+          <Text>Google Play Feature Graphic Photo derived from </Text>
+          <Link href="https://unsplash.com/photos/HKMjPUC_flk">
+            photo by Tommy Lisbin on Unsplash
+          </Link>
+          <Text>.</Text>
+        </Paragraph>
+        <Paragraph>
           <Text>All revenue from this app is donated to </Text>
           <Link href="https://www.accessfund.org/">
             AccessFund
