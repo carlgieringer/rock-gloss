@@ -41,7 +41,7 @@ export default class SettingsScreen extends React.Component {
       <Section key="ads-enabled">
         <Text style={styles.settingLabel}>Ads Enabled: </Text>
         <Switch value={adsEnabled} onValueChange={this.onAdsEnabledChange} />
-        <Text style={styles.smallText}>
+        <Text>
           <Text>All revenue from RockGloss donated to </Text>
           <Link href="https://www.accessfund.org/">AccessFund</Link>
           <Text>; please consider donating.</Text>
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   },
   loadingIndicator: {},
   smallText: {
-    fontSize: RFValue(12),
+    fontSize: RFValue(18),
   },
   section: {
     marginBottom: 12,

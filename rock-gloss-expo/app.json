@@ -33,6 +33,14 @@
         "usesNonExemptEncryption": false
       }
     },
+    "android": {
+      "package": "com.carlgieringer.rock_gloss",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon-android-foreground.png",
+        "backgroundColor": "#2f6888"
+      }
+    },
     "hooks": {
       "postPublish": [
         {

@@ -5,6 +5,9 @@
     "start:android": "expo start --android",
     "start:ios": "expo start --ios",
     "build:ios": ". conf/env.sh && expo build:ios",
+    "build:android": ". conf/env.sh && expo build:android",
+    "fetch-keystore:": "expo fetch:android:keystore",
+    "publish": "expo publish",
     "eject": "expo eject",
     "test": "node ./node_modules/jest/bin/jest.js --watchAll"
   },
