@@ -37,9 +37,7 @@ npm run start
 
 ## TODO
 
-* Terms of Use, Privacy Policy
-  - https://www.adventureprojects.net/terms
-  - https://www.adventureprojects.net/privacy-policy
+* Use AppLoading while computing heights? https://docs.expo.io/versions/latest/sdk/app-loading/
 * Add'l terms:
   - https://www.rei.com/learn/expert-advice/rock-climbing-glossary.html
   - https://rockandice.com/how-to-climb/climbing-terminology/

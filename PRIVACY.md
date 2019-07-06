@@ -117,7 +117,7 @@ We only share and disclose your information with the following third parties. We
 so that you may be easily understand the purpose of our data collection and processing practices. 
 If we have processed your data based on your consent and you wish to revoke your consent, please contact us.  
 
-* Advertising, Direct Marketing, and Lead Generation: [AdMob]([admob])
+* Advertising, Direct Marketing, and Lead Generation: [AdMob]([admob]) ([AdMob Policies]([admob-policies]))
 * Web and Mobile Analytics: [Amplitude]([amplitude])
 * Website Performance Monitoring: [Sentry]([sentry])
 
@@ -232,3 +232,4 @@ to:
 [sentry]: https://sentry.io
 [amplitude]: https://amplitude.com
 [admob]: https://admob.google.com/home/
+[admob-policies]: https://support.google.com/admob/answer/6128543
