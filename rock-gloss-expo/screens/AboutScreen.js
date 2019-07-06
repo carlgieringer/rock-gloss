@@ -73,6 +73,15 @@ export default class AboutScreen extends React.Component {
           <Link href="https://github.com/Ashoat/squadcal/blob/master/native/text-height-measurer.react.js">Ashoat/squadcal</Link>
           <Text>.</Text>
         </Paragraph>
+        <Paragraph>
+          <Text>Your usage of this app is governed by </Text>
+          <Link href="https://github.com/carlgieringer/rock-gloss/blob/master/TERMS.md">Terms of Use</Link>
+          <Text>, a </Text>
+          <Link href="https://github.com/carlgieringer/rock-gloss/blob/master/PRIVACY.md">Privacy Policy</Link>
+          <Text>, and a </Text>
+          <Link href="https://github.com/carlgieringer/rock-gloss/blob/master/DISCLAIMER.md">Disclaimer</Link>
+          <Text>.</Text>
+        </Paragraph>
         <ScreenNavigationAnalytics screenName="about" />
       </ScrollView>
     );

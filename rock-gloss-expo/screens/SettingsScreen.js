@@ -6,10 +6,7 @@ import Link from '../components/Link'
 import AppSettings from '../AppSettings'
 import AppStorage from '../AppStorage'
 import AppAnalytics from '../AppAnalytics'
-import Paragraph from './AboutScreen'
 import ScreenNavigationAnalytics from '../components/ScreenNaviationAnalytics'
-import Errors from '../Errors'
-
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
@@ -54,8 +51,8 @@ export default class SettingsScreen extends React.Component {
         <Text style={styles.settingLabel}>Analytics Enabled: </Text>
         <Switch value={analyticsEnabled} onValueChange={this.onAnalyticsEnabledChange} />
         <Text>
-          The analytics measured in this app are: first app open, app open, 
-          view screen (Terms, About, Settings), disable ads, disable analytics
+          The analytics observed in this app are: first app open, app open, 
+          view screen (Terms, About, Settings), disable ads, disable analytics.
         </Text>
       </Section>,
     ] : (
