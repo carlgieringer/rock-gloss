@@ -7,7 +7,7 @@ import _intersectionWith from 'lodash/fp/intersectionWith';
 import _differenceWith from 'lodash/fp/differenceWith';
 import _isEqual from 'lodash/fp/isEqual';
 
-const measureBatchSize = 50;
+const measureBatchSize = 20;
 
 export default class ViewMeasurer extends React.PureComponent {
 
@@ -44,11 +44,13 @@ export default class ViewMeasurer extends React.PureComponent {
     this.leftToMeasure = new Set();
     const nextNextMeasurements = new Map();
 
-    const newTextToMeasure =
+    const newViewsToMeasure =
       _differenceWith(_isEqual)(nextViewsToMeasure)(this.props.viewsToMeasure);
-    for (let viewToMeasure of newTextToMeasure) {
+    for (let viewToMeasure of newViewsToMeasure) {
       this.leftToMeasure.add(viewToMeasure);
     }
+    
+    this.totalToMeasure = this.leftToMeasure.size;
 
     const existingMeasurements = this.nextMeasurements || this.currentMeasurements;
     const existingViewsToMeasure =
@@ -88,10 +90,20 @@ export default class ViewMeasurer extends React.PureComponent {
     );
     this.leftToMeasure.delete(viewToMeasure);
     this.leftInBatch--;
+    this.updateProgress()
     if (this.leftToMeasure.size === 0) {
       this.done(this.props.viewsToMeasure);
     } else if (this.leftInBatch === 0) {
       this.newBatch();
+    }
+  }
+  
+  updateProgress() {
+    if (this.props.onProgress) {
+      const progress = this.totalToMeasure ? 
+        (this.totalToMeasure - this.leftToMeasure.size) / this.totalToMeasure :
+        1;
+      this.props.onProgress(progress);
     }
   }
 

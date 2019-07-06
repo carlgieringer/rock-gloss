@@ -62,10 +62,17 @@ export default class TermList extends React.Component {
       searchText: '',
       selected: new Map(),
       viewsToMeasure: null,
+      measurementProgress: 0,
     };
   }
   
   render() {
+    const {
+      measurementProgress
+    } = this.state
+
+    const measurementPercentage = Math.round(measurementProgress * 100) 
+    
     const termList = this.state.termMeasurements ? (
       <AlphaScrollList
         Component={FlatList}
@@ -81,9 +88,10 @@ export default class TermList extends React.Component {
       />
     ) : (
       <View style={styles.loadingIndicatorContainer}>
-        {this.state.viewsToMeasure && (
-          <Text>Calculating one-time optimizations...</Text>
-        )}
+        {this.state.viewsToMeasure && ([
+          <Text key="optimizing-1">Optimizing term database...{measurementPercentage}%</Text>,
+          <Text key="optimizing-2">This process occurs only once per term database update.  It can take up to a minute on older mobile devices.</Text>,
+        ])}
         <ActivityIndicator
           color="black"
           size="large"
@@ -94,6 +102,7 @@ export default class TermList extends React.Component {
     const viewMeasurer = this.state.termMeasurements || !this.state.viewsToMeasure ? null : (
       <ViewMeasurer
         viewsToMeasure={this.state.viewsToMeasure}
+        onProgress={this.onMeasureProgress}
         onMeasured={this.onMeasured}
       />
     )
@@ -217,6 +226,12 @@ export default class TermList extends React.Component {
       term={item}
     />
   );
+
+  onMeasureProgress = (progress) => {
+    this.setState({
+      measurementProgress: progress,
+    })
+  }
   
   onMeasured = (viewsToMeasure, newMeasurements) => {
     if (viewsToMeasure !== this.state.viewsToMeasure) {
